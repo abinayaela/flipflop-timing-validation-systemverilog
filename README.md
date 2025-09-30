@@ -85,9 +85,13 @@ module flipflop (
     output logic Q        // Flip-Flop output
 );
 
-    // Implement Flip-Flop behavior
-    // Include D flip-flop logic
+    // Implement D flip-flop behavior
+    always_ff @(posedge CLK) begin
+        Q <= D;
+    end
+
 endmodule
+
 ```
 ### Testbench (`flipflop_tb.sv`)
 ```systemverilog
@@ -104,34 +108,29 @@ module flipflop_tb;
         .Q(Q)
     );
 
-    // Random input generation and clock
+    // Clock generation
     initial begin
         CLK = 0;
-        forever #5 CLK = ~CLK; // Clock generation
+        forever #5 CLK = ~CLK; 
     end
 
+    // Stimulus
     initial begin
         // Apply random data to D
-        // Example:
-        // repeat(20) begin
-        //   D = $urandom_range(0,1);
-        //   #10;
-        // end
+        repeat(20) begin
+            D = $urandom_range(0,1);
+            #10;
+        end
         $stop; // End simulation
     end
 
 endmodule
+
 ```
 ---
 ### Simulation Output
 
-Simulation is carried out using ModelSim 2020.1.
-
-Waveforms will show Flip-Flop input, clock, and output.
-
-Verify setup and hold constraints for all random input patterns.
-
-(Insert waveform screenshot here after running simulation in ModelSim)
+<img width="1920" height="1080" alt="Screenshot 2025-09-30 140355" src="https://github.com/user-attachments/assets/14c8c478-82a9-4352-84a2-0029f8759992" />
 
 ---
 
